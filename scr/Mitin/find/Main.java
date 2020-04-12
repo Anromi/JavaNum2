@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
-// java -jar JavaNum2.jar -r -d D:\2018 ПланJava2.txt
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
 
     @Option(name = "-r", metaVar = "Subdirectories", usage = "Search in all subdirectories")
@@ -18,9 +20,10 @@ public class Main {
     @Option(name = "-d", metaVar = "Directory", usage = "Search in a directory or current")
     private String directory;
 
-    @Argument(required = true, metaVar = "TxtDoc", usage = "The document to be found")
-    private String doc;
+    @Argument(required = true, metaVar = "Doc", usage = "The document to be found")
+    private List<String> listDoc = new ArrayList<String>(); // ??
 
+    private List<String> list = new ArrayList<String>();
     public static void main(String[] args) throws IOException{
         new Main().launch(args);
     }
@@ -39,29 +42,42 @@ public class Main {
 
         PrintStream pr = new PrintStream(System.out);
 
-        if (doc.matches(".+\\.txt")) {
+        try {
+            // избегаю дублирования
+            for (String doc : listDoc) {
+                if (!list.contains(doc))
+                    list.add(doc);
+            }
             File dir = new File(directory);
             if (subdirectories) {
                 // случай, когла есть "-r -d directory". Искать во всех директориях. +
-                if (directory != null) {
-                    pr.println(Find.SearchInAllDirectories(dir, doc, subdirectories));
+                if (directory != null) {                           // java -jar JavaNum2.jar -r -d D:\2018 ПланJava2.txt
+                    for (String doc : list)
+                        pr.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
                 }
                 // случай, когда есть "-r", но нет "-d". Искать во всех поддиректориях?. => ошибка||возращает ничего????
-                if (directory == null) {
-                    // ?
+                if (directory == null) {                                      // java -jar JavaNum2.jar -r ПланJava2.txt
+                    //pr.println("Вы не ввели директорию.");
+                    //pr.println("укажите [-r] [-d directory] - для поиска в директории и поддиректории.");
+                    //pr.println("или");
+                    //pr.println("укажите [-d directory] - для поиска в директории.");
                 }
             } else {
                 // случай, когда есть "-d", но нет "-r". Искать в директории(конкретной) или в текущей(?). +
-                if (directory != null) {
-                    pr.println(Find.SearchInAllDirectories(dir, doc, subdirectories));
+                if (directory != null) {                              // java -jar JavaNum2.jar -d D:\2018 ПланJava2.txt
+                    for (String doc : list)
+                        pr.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
                 }
                 // случай, когда нет "-r" и "-d". ???????. => ошибка||возращает ничего???
-                if (directory == null) {
-                    // ?
+                if (directory == null) {                                         // java -jar JavaNum2.jar ПланJava2.txt
+                    //pr.println("укажите [-r] [-d directory] - для поиска в директории и поддиректории.");
+                    //pr.println("или");
+                    //pr.println("укажите [-d directory] - для поиска в директории.");
                 }
             }
-        } else {
+        } catch (NullPointerException e){
             System.err.println("Неверный формат данных.");
+            System.err.println("Command Line: find [-r] [-d directory] filename.txt");
             parser.printUsage(System.err);
         }
     }
