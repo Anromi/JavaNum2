@@ -21,7 +21,7 @@ public class Main {
     private String directory;
 
     @Argument(required = true, metaVar = "Doc", usage = "The document to be found")
-    private List<String> listDoc = new ArrayList<String>(); // ??
+    private List<String> listDoc = new ArrayList<String>(); // ?
 
     private List<String> list = new ArrayList<String>();
     public static void main(String[] args) throws IOException{
@@ -50,12 +50,12 @@ public class Main {
             }
             File dir = new File(directory);
             if (subdirectories) {
-                // случай, когла есть "-r -d directory". Искать во всех директориях. +
+                // случай, когла есть "-r -d directory".
                 if (directory != null) {                           // java -jar JavaNum2.jar -r -d D:\2018 ПланJava2.txt
                     for (String doc : list)
                         pr.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
                 }
-                // случай, когда есть "-r", но нет "-d". Искать во всех поддиректориях?. => ошибка||возращает ничего????
+                // случай, когда есть "-r", но нет "-d".
                 if (directory == null) {                                      // java -jar JavaNum2.jar -r ПланJava2.txt
                     //pr.println("Вы не ввели директорию.");
                     //pr.println("укажите [-r] [-d directory] - для поиска в директории и поддиректории.");
@@ -63,12 +63,12 @@ public class Main {
                     //pr.println("укажите [-d directory] - для поиска в директории.");
                 }
             } else {
-                // случай, когда есть "-d", но нет "-r". Искать в директории(конкретной) или в текущей(?). +
+                // случай, когда есть "-d", но нет "-r".
                 if (directory != null) {                              // java -jar JavaNum2.jar -d D:\2018 ПланJava2.txt
                     for (String doc : list)
                         pr.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
                 }
-                // случай, когда нет "-r" и "-d". ???????. => ошибка||возращает ничего???
+                // случай, когда нет "-r" и "-d".
                 if (directory == null) {                                         // java -jar JavaNum2.jar ПланJava2.txt
                     //pr.println("укажите [-r] [-d directory] - для поиска в директории и поддиректории.");
                     //pr.println("или");
