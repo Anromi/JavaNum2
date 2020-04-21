@@ -16,7 +16,6 @@ class MainTest {
     private File f6 = new File("resources/input"); // file1.txt, f1.txt
     private File f7 = new File("resources/input/folder1"); // file2.txt
     private File f8 = new File("out/artifacts/JavaNum2_jar"); // текущая директория
-    private File f9 = new File("resources/input/folder1/folder1(1)");
 
     @Test
     public void SearchInAllDirectoriesTest() throws IOException { // Поиск во всех каталогах

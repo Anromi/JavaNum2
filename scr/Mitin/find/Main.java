@@ -44,8 +44,8 @@ public class Main {
             if (directory != null) { // java -jar JavaNum2.jar -r -d D:\2018 ПланJava2.txt
                 File dir = new File(directory);
                 System.out.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
-                // случай, когда есть "-r", но нет "-d".
             }
+            // случай, когда есть "-r", но нет "-d".
             if (directory == null){ // java -jar JavaNum2.jar -r ПланJava2.txt
                 File dirT = new File(new File(".").getAbsolutePath()); // текущая
                 System.out.println(doc + ": " + Find.SearchInAllDirectories(dirT, doc, subdirectories));
