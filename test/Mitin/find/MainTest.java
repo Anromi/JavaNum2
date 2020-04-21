@@ -38,11 +38,12 @@ class MainTest {
         res.clear();
 
         assertEquals(Find.SearchInAllDirectories(f8, "file1.txt", true), isEmpty); // -r file1.txt
-        res.clear();
     }
 
     @Test
     public void SearchInSpecificDirectoriesTest() throws IOException { // Поиск в определенных каталогах
+        assertEquals(Find.SearchInAllDirectories(f8, "file1.txt", false), isEmpty); // file1.txt
+
         res.add(f6); // [resources/input]
         assertEquals(Find.SearchInAllDirectories(f6 , "file1.txt", false), res); // -d resources/input file1.txt
         res.clear();
