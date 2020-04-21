@@ -1,5 +1,6 @@
 package Mitin.find;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
@@ -12,35 +13,40 @@ class MainTest {
     private Set<File> res = new HashSet<File>();
     private Set<File> isEmpty = new HashSet<File>();
 
-    //private File f1 = new File("D:" + separator + "2018"); // TestUtility1.txt, ПланJava2.txt
-    private File f2 = new File("D:"); // ТЕЛЕСКОП.pptx, ПланJava2.txt
-    private File f3 = new File("C://Users//Administrator//IdeaProjects//JavaNum2//input"); // file1.txt, f1.txt
-    private File f4 = new File("C://Users//Administrator//IdeaProjects//JavaNum2//input//folder1"); // file2.txt
+    private File f6 = new File("resources/input"); // file1.txt, f1.txt
+    private File f7 = new File("resources/input/folder1"); // file2.txt
+    private File f8 = new File("out/artifacts/JavaNum2_jar"); // текущая директория
+    private File f9 = new File("resources/input/folder1/folder1(1)");
 
     @Test
-    public void SearchInSpecificDirectoriesTest() throws IOException {
-        res.add(f3);
-        res.add(f4); // [C://Users//Administrator//IdeaProjects//JavaNum2//input,
-                     // C://Users//Administrator//IdeaProjects//JavaNum2//input//folder1]
-        assertEquals(Find.SearchInAllDirectories(f3, "file1.txt", true), res);
-        // -r -d C://Users//Administrator//IdeaProjects//JavaNum2//input file1.txt
+    public void SearchInAllDirectoriesTest() throws IOException { // Поиск во всех каталогах
+        res.add(f6);
+        res.add(f7); // [resources/input, resources/input/folder1]
+        assertEquals(Find.SearchInAllDirectories(f6, "file1.txt", true), res);// -r -d resources/input file1.txt
         res.clear();
 
-        res.add(f4); // [C://Users//Administrator//IdeaProjects//JavaNum2//input//folder1]
-        assertEquals(Find.SearchInAllDirectories(f4, "file1.txt", true), res);
-        // -r -d C://Users//Administrator//IdeaProjects//JavaNum2//input//folder1 file1.txt
+        res.add(f7); // [resources/input/folder1]
+        assertEquals(Find.SearchInAllDirectories(f7, "file1.txt", true), res);// -r -d resources/input/folder1 file1.txt
         res.clear();
     }
+
     @Test
-    public void SearchInAllDirectoriesTest() throws IOException {
-        res.add(f3); // [C://Users//Administrator//IdeaProjects//JavaNum2//input]
-        assertEquals(Find.SearchInAllDirectories(f3 , "file1.txt", false), res);
-        // -d C://Users//Administrator//IdeaProjects//JavaNum2//input file1.txt
+    public void SearchInCurrentDirectory() throws IOException { // поиск в текущей директории
+        res.add(f6);
+        res.add(f7); // [resources/input, resources/input/folder1]
+        assertEquals(Find.SearchInAllDirectories(f6, "file1.txt", true), res); // -r file1.txt
         res.clear();
 
-        res.add(f2); // []
-        assertEquals(Find.SearchInAllDirectories(f3, "f2.txt", false), isEmpty);
-        // -d C://Users//Administrator//IdeaProjects//JavaNum2//input f2.txt
+        assertEquals(Find.SearchInAllDirectories(f8, "file1.txt", true), isEmpty); // -r file1.txt
         res.clear();
+    }
+
+    @Test
+    public void SearchInSpecificDirectoriesTest() throws IOException { // Поиск в определенных каталогах
+        res.add(f6); // [resources/input]
+        assertEquals(Find.SearchInAllDirectories(f6 , "file1.txt", false), res); // -d resources/input file1.txt
+        res.clear();
+
+        assertEquals(Find.SearchInAllDirectories(f6, "f2.txt", false), isEmpty); // -d resources/input f2.txt
     }
 }

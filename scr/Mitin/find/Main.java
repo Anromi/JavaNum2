@@ -21,14 +21,13 @@ public class Main {
     private String directory;
 
     @Argument(required = true, metaVar = "Doc", usage = "The document to be found")
-    private List<String> listDoc = new ArrayList<String>(); // ?
+    private String doc;
 
-    private List<String> list = new ArrayList<String>();
-    public static void main(String[] args) throws IOException{
+    public static void main(String[] args) throws IOException {
         new Main().launch(args);
     }
 
-    private void launch(String[] args) throws IOException{
+    private void launch(String[] args) throws IOException {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
@@ -40,45 +39,28 @@ public class Main {
             return;
         }
 
-        PrintStream pr = new PrintStream(System.out);
-
-        try {
-            // избегаю дублирования
-            for (String doc : listDoc) {
-                if (!list.contains(doc))
-                    list.add(doc);
-            }
-            File dir = new File(directory);
-            if (subdirectories) {
-                // случай, когла есть "-r -d directory".
-                if (directory != null) {                           // java -jar JavaNum2.jar -r -d D:\2018 ПланJava2.txt
-                    for (String doc : list)
-                        pr.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
-                }
+        if (subdirectories) {
+            // случай, когла есть "-r -d directory".
+            if (directory != null) { // java -jar JavaNum2.jar -r -d D:\2018 ПланJava2.txt
+                File dir = new File(directory);
+                System.out.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
                 // случай, когда есть "-r", но нет "-d".
-                if (directory == null) {                                      // java -jar JavaNum2.jar -r ПланJava2.txt
-                    //pr.println("Вы не ввели директорию.");
-                    //pr.println("укажите [-r] [-d directory] - для поиска в директории и поддиректории.");
-                    //pr.println("или");
-                    //pr.println("укажите [-d directory] - для поиска в директории.");
-                }
-            } else {
-                // случай, когда есть "-d", но нет "-r".
-                if (directory != null) {                              // java -jar JavaNum2.jar -d D:\2018 ПланJava2.txt
-                    for (String doc : list)
-                        pr.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
-                }
-                // случай, когда нет "-r" и "-d".
-                if (directory == null) {                                         // java -jar JavaNum2.jar ПланJava2.txt
-                    //pr.println("укажите [-r] [-d directory] - для поиска в директории и поддиректории.");
-                    //pr.println("или");
-                    //pr.println("укажите [-d directory] - для поиска в директории.");
-                }
             }
-        } catch (NullPointerException e){
-            System.err.println("Неверный формат данных.");
-            System.err.println("Command Line: find [-r] [-d directory] filename.txt");
-            parser.printUsage(System.err);
+            if (directory == null){ // java -jar JavaNum2.jar -r ПланJava2.txt
+                File dirT = new File(new File(".").getAbsolutePath()); // текущая
+                System.out.println(doc + ": " + Find.SearchInAllDirectories(dirT, doc, subdirectories));
+            }
+        } else {
+            // случай, когда есть "-d", но нет "-r".
+            if (directory != null) { // java -jar JavaNum2.jar -d D:\2018 ПланJava2.txt
+                File dir = new File(directory);
+                System.out.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
+            }
+            // случай, когда нет "-r" и "-d".
+            if (directory == null) { // java -jar JavaNum2.jar ПланJava2.txt
+                File dirT = new File(new File(".").getAbsolutePath()); // текущая
+                System.out.println(doc + ": " + Find.SearchInAllDirectories(dirT, doc, subdirectories));
+            }
         }
     }
 }
