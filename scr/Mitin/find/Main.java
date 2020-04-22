@@ -39,27 +39,28 @@ public class Main {
             return;
         }
 
+        Find find = new Find();
         if (subdirectories) {
             // случай, когла есть "-r -d directory".
             if (directory != null) { // java -jar JavaNum2.jar -r -d D:\2018 ПланJava2.txt
                 File dir = new File(directory);
-                System.out.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
+                System.out.println(doc + ": " + find.SearchInAllDirectories(dir, doc, subdirectories));
             }
             // случай, когда есть "-r", но нет "-d".
             if (directory == null){ // java -jar JavaNum2.jar -r ПланJava2.txt
                 File dirT = new File(new File(".").getAbsolutePath()); // текущая
-                System.out.println(doc + ": " + Find.SearchInAllDirectories(dirT, doc, subdirectories));
+                System.out.println(doc + ": " + find.SearchInAllDirectories(dirT, doc, subdirectories));
             }
         } else {
             // случай, когда есть "-d", но нет "-r".
             if (directory != null) { // java -jar JavaNum2.jar -d D:\2018 ПланJava2.txt
                 File dir = new File(directory);
-                System.out.println(doc + ": " + Find.SearchInAllDirectories(dir, doc, subdirectories));
+                System.out.println(doc + ": " + find.SearchInAllDirectories(dir, doc, subdirectories));
             }
             // случай, когда нет "-r" и "-d".
             if (directory == null) { // java -jar JavaNum2.jar ПланJava2.txt
                 File dirT = new File(new File(".").getAbsolutePath()); // текущая
-                System.out.println(doc + ": " + Find.SearchInAllDirectories(dirT, doc, subdirectories));
+                System.out.println(doc + ": " + find.SearchInAllDirectories(dirT, doc, subdirectories));
             }
         }
     }

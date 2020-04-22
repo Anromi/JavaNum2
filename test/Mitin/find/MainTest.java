@@ -17,15 +17,16 @@ class MainTest {
     private File f7 = new File("resources/input/folder1"); // file2.txt
     private File f8 = new File("out/artifacts/JavaNum2_jar"); // текущая директория
 
+    Find find = new Find();
     @Test
     public void SearchInAllDirectoriesTest() throws IOException { // Поиск во всех каталогах
         res.add(f6);
         res.add(f7); // [resources/input, resources/input/folder1]
-        assertEquals(Find.SearchInAllDirectories(f6, "file1.txt", true), res);// -r -d resources/input file1.txt
+        assertEquals(find.SearchInAllDirectories(f6, "file1.txt", true), res);// -r -d ...resources/input file1.txt
         res.clear();
 
         res.add(f7); // [resources/input/folder1]
-        assertEquals(Find.SearchInAllDirectories(f7, "file1.txt", true), res);// -r -d resources/input/folder1 file1.txt
+        assertEquals(find.SearchInAllDirectories(f7, "file1.txt", true), res);// -r -d resources/input/folder1 file1.txt
         res.clear();
     }
 
@@ -33,20 +34,20 @@ class MainTest {
     public void SearchInCurrentDirectory() throws IOException { // поиск в текущей директории
         res.add(f6);
         res.add(f7); // [resources/input, resources/input/folder1]
-        assertEquals(Find.SearchInAllDirectories(f6, "file1.txt", true), res); // -r file1.txt
+        assertEquals(find.SearchInAllDirectories(f6, "file1.txt", true), res); // -r file1.txt
         res.clear();
 
-        assertEquals(Find.SearchInAllDirectories(f8, "file1.txt", true), isEmpty); // -r file1.txt
+        assertEquals(find.SearchInAllDirectories(f8, "file1.txt", true), isEmpty); // -r file1.txt
     }
 
     @Test
     public void SearchInSpecificDirectoriesTest() throws IOException { // Поиск в определенных каталогах
-        assertEquals(Find.SearchInAllDirectories(f8, "file1.txt", false), isEmpty); // file1.txt
+        assertEquals(find.SearchInAllDirectories(f8, "file1.txt", false), isEmpty); // file1.txt
 
         res.add(f6); // [resources/input]
-        assertEquals(Find.SearchInAllDirectories(f6 , "file1.txt", false), res); // -d resources/input file1.txt
+        assertEquals(find.SearchInAllDirectories(f6 , "file1.txt", false), res); // -d resources/input file1.txt
         res.clear();
 
-        assertEquals(Find.SearchInAllDirectories(f6, "f2.txt", false), isEmpty); // -d resources/input f2.txt
+        assertEquals(find.SearchInAllDirectories(f6, "f2.txt", false), isEmpty); // -d resources/input f2.txt
     }
 }

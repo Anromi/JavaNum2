@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class Find {
 
-    static public Set<File> SearchInAllDirectories(File directory, String doc, Boolean subdirectories) throws IOException {
+    public Set<File> SearchInAllDirectories(File directory, String doc, Boolean subdirectories) throws IOException {
         Set<File> res = new HashSet<File>();
         File[] dirFiles = directory.listFiles();
         if (dirFiles != null) {
